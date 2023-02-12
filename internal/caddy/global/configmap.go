@@ -2,6 +2,7 @@ package global
 
 import (
 	"encoding/json"
+	"fmt"
 
 	caddy2 "github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig"
@@ -34,7 +35,7 @@ func (p ConfigMapPlugin) GlobalHandler(config *converter.Config, store *store.St
 		config.Logging.Logs = map[string]*caddy2.CustomLog{"default": {Level: "DEBUG"}}
 	}
 
-	if cfgMap.AcmeCA != "" || cfgMap.Email != "" {
+	if cfgMap.AcmeCA != "" || cfgMap.Email != "" || cfgMap.AcmeDNSProvider != "" {
 		acmeIssuer := caddytls.ACMEIssuer{}
 
 		if cfgMap.AcmeCA != "" {
@@ -50,6 +51,20 @@ func (p ConfigMapPlugin) GlobalHandler(config *converter.Config, store *store.St
 
 		if cfgMap.Email != "" {
 			acmeIssuer.Email = cfgMap.Email
+		}
+
+		// fmt.Printf("Value of Challenges %T", acmeIssuer.Challenges)
+
+		if cfgMap.AcmeDNSProvider != "" && cfgMap.AcmeDNSGCPProject != "" {
+			acmeIssuer.Challenges = &caddytls.ChallengesConfig{
+				DNS: &caddytls.DNSChallengeConfig{
+					ProviderRaw: json.RawMessage(fmt.Sprintf(
+						`{"name":"%s", "gcp_project":"%s"}`,
+						cfgMap.AcmeDNSProvider,
+						cfgMap.AcmeDNSGCPProject,
+					)),
+				},
+			}
 		}
 
 		var onDemandConfig *caddytls.OnDemandConfig

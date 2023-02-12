@@ -28,6 +28,9 @@ import (
 	_ "github.com/caddyserver/caddy/v2/modules/metrics"
 	_ "github.com/caddyserver/ingress/pkg/proxy"
 	_ "github.com/caddyserver/ingress/pkg/storage"
+
+	// user required caddy plugins
+	_ "github.com/caddy-dns/googleclouddns"
 )
 
 const (
@@ -239,6 +242,7 @@ func (c *CaddyController) processNextItem() bool {
 }
 
 // handleErrs reports errors received from queue actions.
+//
 //goland:noinspection GoUnusedParameter
 func (c *CaddyController) handleErr(err error, action interface{}) {
 	c.logger.Error(err.Error())

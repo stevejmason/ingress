@@ -7,4 +7,4 @@ EXPOSE 80 443
 ENTRYPOINT ["/ingress-controller"]
 
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY ingress-controller /
+COPY bin/ingress-controller /ingress-controller

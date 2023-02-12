@@ -16,6 +16,8 @@ type ConfigMapOptions struct {
 	AcmeCA                    string         `json:"acmeCA,omitempty"`
 	AcmeEABKeyId              string         `json:"acmeEABKeyId,omitempty"`
 	AcmeEABMacKey             string         `json:"acmeEABMacKey,omitempty"`
+	AcmeDNSProvider           string         `json:"acmeDNSProvider,omitempty"`
+	AcmeDNSGCPProject         string         `json:"acmeDNSGCPProject,omitempty"` // figure better way to pass in provider configs...
 	Email                     string         `json:"email,omitempty"`
 	ExperimentalSmartSort     bool           `json:"experimentalSmartSort,omitempty"`
 	ProxyProtocol             bool           `json:"proxyProtocol,omitempty"`
